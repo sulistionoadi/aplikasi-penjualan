@@ -1,0 +1,7 @@
+#NetBeans
+nbproject
+build
+dist
+private
+build.xml
+manifest.mf
