@@ -5,16 +5,40 @@
 package training.java.penjualan.domain;
 
 import java.math.BigDecimal;
+import javax.persistence.Column;
+import javax.persistence.Entity;
+import javax.persistence.Id;
+import javax.persistence.JoinColumn;
+import javax.persistence.ManyToOne;
+import javax.persistence.Table;
 
 /**
  *
  * @author adi
  */
+
+@Entity
+@Table(name="tr_jual_detail")
 public class TrJualDetail {
+    
+    @Id
+    private TrJualDetailPK idJual;
+    
+    @ManyToOne
+    @JoinColumn(name="no_faktur", referencedColumnName="no_faktur")
     private TrJualHeader header;
+    
+    @ManyToOne
+    @JoinColumn(name="id_barang", referencedColumnName="id")
     private Barang barang;
+    
+    @Column(name="qty")
     private Integer qty;
+    
+    @Column(name="harga")
     private BigDecimal harga;
+    
+    @Column(name="total")
     private BigDecimal total;
 
     public Barang getBarang() {
@@ -55,6 +79,14 @@ public class TrJualDetail {
 
     public void setTotal(BigDecimal total) {
         this.total = total;
+    }
+
+    public TrJualDetailPK getIdJual() {
+        return idJual;
+    }
+
+    public void setIdJual(TrJualDetailPK idJual) {
+        this.idJual = idJual;
     }
     
     

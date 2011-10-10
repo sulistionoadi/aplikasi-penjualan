@@ -5,16 +5,30 @@
 package training.java.penjualan.domain;
 
 import java.math.BigDecimal;
+import javax.persistence.Column;
+import javax.persistence.Entity;
+import javax.persistence.GeneratedValue;
+import javax.persistence.Id;
+import javax.persistence.Table;
 
 /**
  *
  * @author adi
  */
+@Entity
+@Table(name="t_barang")
 public class Barang {
 
+    @Id @GeneratedValue
     private Long id;
+    
+    @Column(name="kode_barang", length=8, unique=true)
     private String kodeBarang;
+    
+    @Column(name="nama_barang", length=50)
     private String namaBarang;
+    
+    @Column(name="harga")
     private BigDecimal harga;
 
     public BigDecimal getHarga() {
