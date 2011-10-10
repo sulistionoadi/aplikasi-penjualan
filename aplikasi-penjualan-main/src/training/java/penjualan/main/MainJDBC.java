@@ -9,6 +9,7 @@ import java.math.BigInteger;
 import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.SQLException;
+import java.util.List;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import training.java.penjualan.domain.Barang;
@@ -33,7 +34,8 @@ public class MainJDBC {
     
     public static void main(String[] args) {
         initConnection();
-        simpanBarang();
+        //simpanBarang();
+        getAllBarang();
     }
     
     public static void initConnection(){
@@ -55,5 +57,17 @@ public class MainJDBC {
         b.setHarga(new BigDecimal(2500));
         
         appService.saveBarang(b);
+    }
+    
+    public static void getAllBarang(){
+        List<Barang> listbaBarangs = appService.getAllBarang();
+        System.out.println("Jumlah Record : " + listbaBarangs.size());
+        
+        for (Barang b : listbaBarangs) {
+            System.out.println("\n====" + b.getId() + " ====");
+            System.out.println("Kode Barang : " + b.getKodeBarang());
+            System.out.println("Nama Barang : " + b.getNamaBarang());
+            System.out.println("Harga : " + b.getHarga());
+        }
     }
 }

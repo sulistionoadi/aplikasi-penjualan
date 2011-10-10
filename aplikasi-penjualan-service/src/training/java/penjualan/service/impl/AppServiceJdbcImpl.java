@@ -7,7 +7,9 @@ package training.java.penjualan.service.impl;
 import java.math.BigDecimal;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
+import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.logging.Level;
 import java.util.logging.Logger;
@@ -22,13 +24,17 @@ public class AppServiceJdbcImpl implements AppServiceJdbc{
     
     private Connection connection;
     private PreparedStatement psInsert;
+    private PreparedStatement psSelectAll;
+    
     private final String sqlInsert = "insert into t_barang (kode_barang, nama_barang, harga) "
             + "values (?,?,?);";
+    private final String sqlSelectAll = "select * from t_barang order by kode_barang";
 
     public AppServiceJdbcImpl(Connection connection) {
         try {
             this.connection = connection;
             psInsert = connection.prepareStatement(sqlInsert);
+            psSelectAll = connection.prepareStatement(sqlSelectAll);
         } catch (SQLException ex) {
             Logger.getLogger(AppServiceJdbcImpl.class.getName()).log(Level.SEVERE, null, ex);
         }
@@ -53,7 +59,22 @@ public class AppServiceJdbcImpl implements AppServiceJdbc{
 
     @Override
     public List<Barang> getAllBarang() {
-        throw new UnsupportedOperationException("Not supported yet.");
+        List<Barang> result = new ArrayList<Barang>();
+        try {
+            ResultSet rs = psSelectAll.executeQuery();
+            while(rs.next()){
+                Barang b = new Barang();
+                b.setId(rs.getLong("id"));
+                b.setKodeBarang(rs.getString("kode_barang"));
+                b.setNamaBarang(rs.getString("nama_barang"));
+                b.setHarga(rs.getBigDecimal("harga"));
+                
+                result.add(b);
+            }
+        } catch (SQLException ex) {
+            Logger.getLogger(AppServiceJdbcImpl.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        return result;
     }
     
 }
