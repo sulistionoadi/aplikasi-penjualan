@@ -16,10 +16,10 @@ import javax.persistence.Embeddable;
 @Embeddable
 public class TrJualDetailPK implements Serializable{
     
-    @Column(name="no_faktur", insertable=false, updatable=false, nullable=false)
+    @Column(name="no_faktur")
     private String noFaktur;
     
-    @Column(name="id_barang", insertable=false, updatable=false, nullable=false)
+    @Column(name="id_barang")
     private Long idBarang;
 
     public TrJualDetailPK() {

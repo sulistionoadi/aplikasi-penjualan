@@ -25,11 +25,11 @@ public class TrJualDetail {
     private TrJualDetailPK idJual;
     
     @ManyToOne
-    @JoinColumn(name="no_faktur", referencedColumnName="no_faktur")
+    @JoinColumn(name="no_faktur", referencedColumnName="no_faktur", insertable=false, updatable=false, nullable=false)
     private TrJualHeader header;
     
     @ManyToOne
-    @JoinColumn(name="id_barang", referencedColumnName="id")
+    @JoinColumn(name="id_barang", referencedColumnName="id",insertable=false, updatable=false, nullable=false)
     private Barang barang;
     
     @Column(name="qty")
@@ -47,6 +47,7 @@ public class TrJualDetail {
 
     public void setBarang(Barang barang) {
         this.barang = barang;
+        this.idJual.setIdBarang(barang.getId());
     }
 
     public BigDecimal getHarga() {
@@ -63,6 +64,7 @@ public class TrJualDetail {
 
     public void setHeader(TrJualHeader header) {
         this.header = header;
+        this.idJual.setNoFaktur(header.getNoFaktur());
     }
 
     public Integer getQty() {
