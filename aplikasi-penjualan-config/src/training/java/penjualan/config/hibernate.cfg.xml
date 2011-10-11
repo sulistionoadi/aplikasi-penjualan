@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE hibernate-configuration PUBLIC "-//Hibernate/Hibernate Configuration DTD 3.0//EN" "http://hibernate.sourceforge.net/hibernate-configuration-3.0.dtd">
+<hibernate-configuration>
+  <session-factory>
+    <property name="hibernate.dialect">org.hibernate.dialect.MySQLInnoDBDialect</property>
+    <property name="hibernate.hbm2ddl.auto">update</property>
+    <property name="hibernate.show_sql">true</property>
+    
+    <!--Mapping class yang dijadikan table-->
+    <mapping class="training.java.penjualan.domain.Barang"/>
+    <mapping class="training.java.penjualan.domain.TrJualHeader"/>
+    <mapping class="training.java.penjualan.domain.TrJualDetail"/>
+  </session-factory>
+</hibernate-configuration>
