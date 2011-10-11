@@ -5,7 +5,10 @@
 package training.java.penjualan.service.impl;
 
 import java.util.List;
+import org.hibernate.SessionFactory;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 import training.java.penjualan.domain.Barang;
 import training.java.penjualan.service.AppServiceSpring;
 
@@ -15,26 +18,51 @@ import training.java.penjualan.service.AppServiceSpring;
  */
 
 @Service("appService")
+@Transactional
 public class AppServiceSpringImpl implements AppServiceSpring{
-
+    
+    @Autowired private SessionFactory sessionFactory;
+    
     @Override
     public void save(Barang b) {
-        throw new UnsupportedOperationException("Not supported yet.");
+        sessionFactory.getCurrentSession().save(b);
     }
 
     @Override
     public Barang getBarangById(Long id) {
-        throw new UnsupportedOperationException("Not supported yet.");
+        return (Barang) sessionFactory.getCurrentSession()
+                .createQuery("select b from Barang b where b.id = :id")
+                .setParameter("id", id)
+                .uniqueResult();
     }
 
     @Override
-    public List<Barang> getAllBarang(int start, int rows) {
-        throw new UnsupportedOperationException("Not supported yet.");
+    public List<Barang> getAllBarang(Integer start, Integer rows) {
+        if(start == null) start = 0;
+        if(rows == null) rows = 20;
+        
+        return sessionFactory.getCurrentSession()
+                .createQuery("select b from Barang b")
+                .setFirstResult(start)
+                .setMaxResults(rows)
+                .list();
     }
 
     @Override
     public Long countBarang() {
-        throw new UnsupportedOperationException("Not supported yet.");
+        return (Long) sessionFactory.getCurrentSession()
+                .createQuery("select count(b) from Barang b")
+                .uniqueResult();
+    }
+
+    @Override
+    public void update(Barang b) {
+        sessionFactory.getCurrentSession().update(b);
+    }
+
+    @Override
+    public void delete(Barang b) {
+        sessionFactory.getCurrentSession().delete(b);
     }
     
 }

@@ -13,7 +13,9 @@ import training.java.penjualan.domain.Barang;
  */
 public interface AppServiceSpring {
     public void save(Barang b);
+    public void update(Barang b);
+    public void delete(Barang b);
     public Barang getBarangById(Long id);
-    public List<Barang> getAllBarang(int start, int rows);
+    public List<Barang> getAllBarang(Integer start, Integer rows);
     public Long countBarang();
 }
