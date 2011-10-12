@@ -35,7 +35,8 @@ public class MainSpring {
         //listBarang();
         
         // Penjualan
-        simpanPenjualan();
+        //simpanPenjualan();
+        showPenjualan();
     }
     
     private static void simpanBarang(){
@@ -113,5 +114,43 @@ public class MainSpring {
         header.hitungTotalJual();
         
         appService.save(header);
+    }
+    
+    private static void showPenjualan(){
+        Integer start = 0;
+        Integer rows = 20;
+        Long count = appService.countBarang();
+        List<TrJualHeader> headerAll = new ArrayList<TrJualHeader>();
+        
+        while(start < count){
+            List<TrJualHeader> headers = appService.getAllJualHeader(start, rows);
+            headerAll.addAll(headers);
+            start += rows;
+        }
+        
+        System.out.println("Jumlah Record : " + count + "\n");
+        for (TrJualHeader header : headerAll) {
+            System.out.println("No. Faktur : " + header.getNoFaktur());
+            System.out.println("Nama Cust : " + header.getNamaKonsumen());
+            System.out.println("Tgl Faktur : " + header.getTglFaktur());
+            System.out.println("Total Jual : " + header.getTotalJual());
+            System.out.println("----------- details -----------------");
+            for (TrJualDetail d : header.getPenjualanDetails()) {
+                System.out.print("No. Faktur : " + d.getIdJual().getNoFaktur());
+                System.out.print(" | ");
+                System.out.print("Kode Barang : " + d.getBarang().getKodeBarang());
+                System.out.print(" | ");
+                System.out.print("Nama Barang : " + d.getBarang().getNamaBarang());
+                System.out.print(" | ");
+                System.out.print("Jumlah : " + d.getQty());
+                System.out.print(" | ");
+                System.out.print("Harga : " + d.getHarga());
+                System.out.print(" | ");
+                System.out.print("Total : " + d.getTotal());
+                System.out.print("\n");
+            }
+            System.out.println("+++++++++++++++++++++++++++++");
+        } 
+                
     }
 }

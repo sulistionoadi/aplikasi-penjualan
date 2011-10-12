@@ -5,6 +5,7 @@
 package training.java.penjualan.service.impl;
 
 import java.util.List;
+import org.hibernate.Hibernate;
 import org.hibernate.SessionFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -84,7 +85,8 @@ public class AppServiceSpringImpl implements AppServiceSpring{
     @Override
     public TrJualHeader getJualHeaderByNoFaktur(String noFaktur) {
         return (TrJualHeader) sessionFactory.getCurrentSession()
-                .createQuery("select h from TrJualHeader h "
+                .createQuery("select h from TrJualHeader h join fetch "
+                + "h.penjualanDetails"
                 + "where h.noFaktur = :noFaktur")
                 .setParameter("noFaktur", noFaktur)
                 .uniqueResult();
@@ -92,9 +94,15 @@ public class AppServiceSpringImpl implements AppServiceSpring{
 
     @Override
     public List<TrJualHeader> getAllJualHeader(Integer start, Integer rows) {
-        return sessionFactory.getCurrentSession()
-                .createQuery("select h from TrJualheader h")
+        List<TrJualHeader> result = sessionFactory.getCurrentSession()
+                .createQuery("select h from TrJualHeader h")
                 .list();
+        
+        for (TrJualHeader h : result) {
+            Hibernate.initialize(h.getPenjualanDetails());
+        }
+        
+        return result;
     }
 
     @Override
