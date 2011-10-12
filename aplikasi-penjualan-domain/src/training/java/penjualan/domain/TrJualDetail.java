@@ -22,7 +22,7 @@ import javax.persistence.Table;
 public class TrJualDetail {
     
     @Id
-    private TrJualDetailPK idJual;
+    private TrJualDetailPK idJual = new TrJualDetailPK();
     
     @ManyToOne
     @JoinColumn(name="no_faktur", referencedColumnName="no_faktur", insertable=false, updatable=false, nullable=false)

@@ -10,6 +10,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import training.java.penjualan.domain.Barang;
+import training.java.penjualan.domain.TrJualHeader;
 import training.java.penjualan.service.AppServiceSpring;
 
 /**
@@ -63,6 +64,44 @@ public class AppServiceSpringImpl implements AppServiceSpring{
     @Override
     public void delete(Barang b) {
         sessionFactory.getCurrentSession().delete(b);
+    }
+
+    @Override
+    public void save(TrJualHeader header) {
+        sessionFactory.getCurrentSession().save(header);
+    }
+
+    @Override
+    public void update(TrJualHeader header) {
+        sessionFactory.getCurrentSession().update(header);
+    }
+
+    @Override
+    public void delete(TrJualHeader header) {
+        sessionFactory.getCurrentSession().delete(header);
+    }
+
+    @Override
+    public TrJualHeader getJualHeaderByNoFaktur(String noFaktur) {
+        return (TrJualHeader) sessionFactory.getCurrentSession()
+                .createQuery("select h from TrJualHeader h "
+                + "where h.noFaktur = :noFaktur")
+                .setParameter("noFaktur", noFaktur)
+                .uniqueResult();
+    }
+
+    @Override
+    public List<TrJualHeader> getAllJualHeader(Integer start, Integer rows) {
+        return sessionFactory.getCurrentSession()
+                .createQuery("select h from TrJualheader h")
+                .list();
+    }
+
+    @Override
+    public Long countTrJualHeader() {
+        return (Long) sessionFactory.getCurrentSession()
+                .createQuery("select count(h) from TrJualHeader h")
+                .uniqueResult();
     }
     
 }

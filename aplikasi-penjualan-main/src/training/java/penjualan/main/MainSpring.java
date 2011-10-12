@@ -7,10 +7,13 @@ package training.java.penjualan.main;
 import java.math.BigDecimal;
 import java.math.BigInteger;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 import org.springframework.context.ApplicationContext;
 import org.springframework.context.support.ClassPathXmlApplicationContext;
 import training.java.penjualan.domain.Barang;
+import training.java.penjualan.domain.TrJualDetail;
+import training.java.penjualan.domain.TrJualHeader;
 import training.java.penjualan.service.AppServiceSpring;
 
 /**
@@ -26,10 +29,13 @@ public class MainSpring {
         appService = (AppServiceSpring) appContext.getBean("appService");
         
         // Barang
-//        simpanBarang();
-//        updateBarang();
-        deleteBarang();
-        listBarang();
+        //simpanBarang();
+        //updateBarang();
+        //deleteBarang();
+        //listBarang();
+        
+        // Penjualan
+        simpanPenjualan();
     }
     
     private static void simpanBarang(){
@@ -74,5 +80,38 @@ public class MainSpring {
     private static void deleteBarang(){
         Barang b = appService.getBarangById(2L);
         appService.delete(b);
+    }
+    
+    private static void simpanPenjualan(){
+        List<TrJualDetail> details = new ArrayList<TrJualDetail>();
+        TrJualHeader header = new TrJualHeader();
+        header.setNoFaktur("FP001");
+        header.setNamaKonsumen("Adi");
+        header.setTglFaktur(new Date());
+        
+        //membuat detail penjualan 1
+        TrJualDetail d1 = new TrJualDetail();
+        Barang b1 = appService.getBarangById(1L);
+        d1.setBarang(b1);
+        d1.setHeader(header);
+        d1.setQty(4);
+        d1.setHarga(b1.getHarga());
+        d1.setTotal(new BigDecimal(d1.getQty()).multiply(d1.getHarga()));
+        details.add(d1);
+        
+        //membuat detail penjualan 2
+        TrJualDetail d2 = new TrJualDetail();
+        Barang b2 = appService.getBarangById(3L);
+        d2.setBarang(b2);
+        d2.setHeader(header);
+        d2.setQty(1);
+        d2.setHarga(b2.getHarga());
+        d2.setTotal(new BigDecimal(d2.getQty()).multiply(d2.getHarga()));
+        details.add(d2);
+        
+        header.setPenjualanDetails(details);
+        header.hitungTotalJual();
+        
+        appService.save(header);
     }
 }
