@@ -1,0 +1,42 @@
+<html>
+    <head>
+        <title>Form Barang</title>
+    </head>
+    
+    #if(!$barang)
+        Id barang tidak valid
+    #else
+    <body>
+        <form method="post" action="">
+            <table border="0" cellpadding="0" cellspacing="0">
+                <tr>
+                    <td>Kode Barang</td>
+                    <td>:</td>
+                    <td>
+                        <input type="text" name="kodeBarang" value="$!barang.kodeBarang"/>
+                    </td>
+                </tr>
+                <tr>
+                    <td>Nama Barang</td>
+                    <td>:</td>
+                    <td>
+                        <input type="text" name="namaBarang" value="$!barang.namaBarang"/>
+                    </td>
+                </tr>
+                <tr>
+                    <td>Harga</td>
+                    <td>:</td>
+                    <td>
+                        <input type="text" name="harga" value="$!barang.harga"/>
+                    </td>
+                </tr>
+                <tr>
+                    <td align="center" colspan="3">
+                        <input type="submit" value="Save" name="save"/>
+                    </td>
+                </tr>
+            </table>
+        </form>
+    </body>
+    #end
+</html>

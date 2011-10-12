@@ -1,0 +1,30 @@
+<html>
+    <head>
+        <title>List Barang</title>
+    </head>
+    <body>
+        #if(!$barangList ||$barangList.isEmpty())
+            Tidak ada data barang !
+       #else
+       <table>
+           <th>Id</th>
+           <th>Kode</th>
+           <th>Nama</th>
+           <th>harga</th>
+           
+           #foreach($barang in $barangList)
+           
+           <tr>
+               <td>$barang.id</td>
+               <td>$barang.kodeBarang</td>
+               <td>$barang.namaBarang</td>
+               <td>$!numberTool.format($barang.harga)</td>
+               <td><a href="form?id=$!barang.id">update</a></td>
+               <td><a href="delete?id=$!barang.id">delete</a></td>
+           </tr>
+           
+           #end
+       </table>
+       #end
+    </body>
+</html>
