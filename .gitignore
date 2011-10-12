@@ -3,5 +3,5 @@ nbproject
 build
 dist
 private
-build.xml
+#build.xml
 manifest.mf
