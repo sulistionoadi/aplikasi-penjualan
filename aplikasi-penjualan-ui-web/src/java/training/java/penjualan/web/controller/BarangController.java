@@ -4,6 +4,7 @@
  */
 package training.java.penjualan.web.controller;
 
+import javax.servlet.http.HttpServletRequest;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.ModelMap;
@@ -60,6 +61,20 @@ public class BarangController {
         appService.delete(b);
                 
         return "redirect:list";
+    }
+    
+    @RequestMapping(value="/barang/cetak", method= RequestMethod.GET)
+    public ModelMap cetakDaftarBarang(@RequestParam(value="format", required=false) String format,
+        HttpServletRequest request){
+        
+        Integer start = 0;
+        Integer count = appService.countBarang().intValue();
+        
+        ModelMap mm = new ModelMap();
+        mm.addAttribute("format", format);
+        mm.addAttribute("daftarBarang", appService.getAllBarang(start, count));
+        return mm;
+        
     }
             
 }

@@ -1,0 +1,45 @@
+Membuat report menggunakan iReport
+	- Pertama kita buat design templatenya menggunakan iReport
+	- kemudian kita save template nya ke dalam folder /WEB-INF/templates/jasper
+	- kemudian untuk membuat field di jasper report, usahakan nama fieldnya sama dengan 
+	  nama property di kelas barang
+	- kemudian setelah selesai membuat design, lalu save dan compile reportnya
+
+	- kemudian di dispatcher-servlet tambahkan baris kode berikut ini
+		- <mvc:annotation-driven />
+		- <bean id="jasperViewResolver" 
+        		class="org.springframework.web.servlet.view.ResourceBundleViewResolver">
+        		<property name="basename" value="views" />
+        		<property name="order" value="0" />
+	     </bean>
+	- urutan /  order untuk velocity di taruh di paling akhir
+
+	- kemudian buat file dengan nama views.properties
+		barang/cetak.(class) = org.springframework.web.servlet.view.jasperreports.JasperReportsMultiFormatView
+		barang/cetak.url = /WEB-INF/templates/jasper/DaftarBarang.jasper
+		barang/cetak.reportDataKey = daftarBarang
+	- kemudian tambahkan library
+		- servlet-api.jar
+		- groovy-all-1.7.5.jar
+		- iText-2.1.7.jar
+		- jasperreports-3.7.6.jar
+		- poi-3.6.jar
+
+	- kemudian buat method di controller seperti ini
+		@RequestMapping(value="/barang/cetak", method= RequestMethod.GET)
+		 public ModelMap cetakDaftarBarang(@RequestParam(value="format", required=false) String format,
+		     HttpServletRequest request){
+		     
+		     Integer start = 0;
+		     Integer count = appService.countBarang().intValue();
+		     
+		     ModelMap mm = new ModelMap();
+		     mm.addAttribute("format", format);
+		     mm.addAttribute("daftarBarang", appService.getAllBarang(start, count));
+		     return mm;
+		 }
+
+	- kemudian buat link download di list.html
+        
+
+
