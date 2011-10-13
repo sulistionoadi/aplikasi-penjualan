@@ -1,0 +1,41 @@
+Membuat Sitemesh dan Decorators untuk tampilan web
+	- kita download dulu atau membuat template website yang nanti akan kita gunakan
+	- kemudian kita membuat folder decorators di dalam folder WEB-INF
+	- kemudian setelah mebuat folder decorators, kita copy main index dari template yang udah di download 
+		ke folder decorators tadi
+	- kemudian kita ganti dengan nama main.html
+	- kemudian, folder images, css, js atau configurasi2 lain untuk template websitenya kita copy ke folder webapps
+		atau sejajar dengan folder WEB-INF
+	- kemudian buat file decorators.xml di dalam folder WEB-INF
+		kemudian isi fiel decorators.xml seperti ini
+		<decorators defaultdir="/WEB­-INF/decorators">
+		    <decorator name="default" page="main.html">
+		        <pattern>/*</pattern>
+	       </decorator>
+		</decorators>
+	- kemudian buka web.xml dan tambahkan konfigurasi berikut
+		<servlet>
+			<servlet-name>sitemesh-velocity</servlet-name>
+			<servlet-class>com.opensymphony.module.sitemesh.velocity.VelocityDecoratorServlet<servlet-class>
+		</servlet>
+
+		<servlet-mapping>
+			<servlet-name>sitemesh-velocity</servlet-name>
+			<url-pattern>*.html</url-pattern>
+		</servlet-mapping>
+
+		<filter>
+			<filter-name>sitemesh</filter-name>
+			<filter-class>com.opensymphony.module.sitemesh.filter.PageFilter</filter-class>
+		</filter>
+
+		<filter-mapping>
+			<filter-name>sitemesh</filter-name>
+			<url-pattern>/*<url-pattern>
+		</filter-mapping>
+	- kemudian tambahkan library sitemesh
+	- kemudian ubah file main.html
+		* untuk isi <title>${title}</title>
+		* untuk url/path lokasi gambar, css, js ditambahkan ${base}
+			* contoh ${base}/images/xxx.jpg
+		* untuk isi dari body menggunakan ${body}
